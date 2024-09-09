@@ -8,6 +8,9 @@ setup(
     install_requires =[
         "django >= 3.0",
     ],
+    test_require=[
+        'pytest',
+    ],
     license='MIT',
     packages=find_packages(),
     include_package_data=True,
