@@ -16,10 +16,9 @@ setup(
     auther= 'mohammad ghasempour',
     author_email='mamad.agha750202@gmail.com',
     classifiers=[
-        'development Status :: 4 - beta',
-        'Environment :: Web Environment',
-        'framework :: Django',
-        'programming Language :: Python :: 3.6',
+        #'development Status :: 4 - beta',
+        #'Environment :: Web Environment',
+        'programming Language :: Python :: 3',
         'license :: OSI Approved :: MIT License',
         'operating System :: OS Independent',
     ]
