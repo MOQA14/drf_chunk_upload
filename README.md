@@ -6,9 +6,7 @@ Prerequisites
 
 To use this project, follow these steps:
 
-    Download and install the ChunkUpload package from PyPI:
-
-    bash
+Download and install the ChunkUpload package from PyPI:
 
     pip install ChunkUpload
 
