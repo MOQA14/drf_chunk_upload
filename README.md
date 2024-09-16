@@ -1,32 +1,39 @@
-# to making this page to graphic design, we should using 'typora'
+ChunkUpload
+General Description
 
-    **Chunked Upload**
+ChunkUpload is a project designed for uploading videos in chunks. This project receives videos without considering their size and stores them chunk by chunk in the database. A default chunk size is set, but you can modify it based on your needs.
+Prerequisites
 
-    This simple django app enables users to upload large files to Django Rest Framework in multiple chunks, 
-    with the ability to automatically delete uncomplete uploads if the upload is not completed.
+To use this project, follow these steps:
 
+    Download and install the ChunkUpload package from PyPI:
 
-    1 - insatll with pip:
-    
-    pip install something = should writing something - 1
+    bash
 
+pip install ChunkUpload
 
-    2 - for using automatically delete uncomplete uploads:
+Add upload_chunk to the INSTALLED_APPS list in your Django project’s settings file (settings.py):
 
-    INSTALLED_APPS = (
-    # ...
-    'django_cron',
-    ) - 2
+python
 
+    INSTALLED_APPS = [
+        ...,
+        'upload_chunk',
+    ]
 
-    3 - Typical usage
-    
-    First, a request is sent to the server, which includes the length of the file. 
-    Then the server returns a response including the chunk size and an upload ID to the client.
-    In the next request, the client sends the file with a predetermined chunk size to the server.
+Usage
 
+    After completing the above steps, the project is ready, and you can upload your videos in chunks.
+    The default chunk size can be found in the settings, which you can adjust according to your requirements.
 
-    hint = In this code, the chunk number equal to 10 ,  you can change it if you need.
+Author
 
+    moqa14
 
-    
+Development Team
+
+    Nadimibox
+
+Additional Information
+
+For improving the quality of the project and contributing, feel free to contact me.

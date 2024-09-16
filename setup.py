@@ -15,14 +15,20 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     long_description=open('README.md').read(),
-    url='https://github.com/mohammadGhasempour75', # should be github address
+    url='https://github.com/MOQA14',
     auther= 'mohammad ghasempour',
     author_email='mamad.agha750202@gmail.com',
     classifiers=[
-        #'development Status :: 4 - beta',
-        #'Environment :: Web Environment',
-        'programming Language :: Python :: 3',
-        'license :: OSI Approved :: MIT License',
-        'operating System :: OS Independent',
+        'Development Status :: 4 - Beta',
+        'Environment :: Web Environment',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
     ]
 )
