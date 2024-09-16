@@ -10,7 +10,7 @@ To use this project, follow these steps:
 
     bash
 
-pip install ChunkUpload
+    pip install ChunkUpload
 
 Add upload_chunk to the INSTALLED_APPS list in your Django project’s settings file (settings.py):
 
