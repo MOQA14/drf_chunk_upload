@@ -139,7 +139,7 @@ class UploadDetailView(APIView):
         return Response(response_data, status=status.HTTP_200_OK)
 
 
-class UploadChunksView(APIView):
+'''class UploadChunksView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, upload_id, *args, **kwargs):
@@ -149,7 +149,7 @@ class UploadChunksView(APIView):
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
 
         chunks = upload.chunks.all()
-        return Response(ChunkSerializer(chunks, many=True).data, status=status.HTTP_200_OK)
+        return Response(ChunkSerializer(chunks, many=True).data, status=status.HTTP_200_OK)'''
 
 
 # for test

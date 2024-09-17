@@ -6,11 +6,9 @@ Prerequisites
 
 To use this project, follow these steps:
 
-    Download and install the ChunkUpload package from PyPI:
+Download and install the ChunkUpload package from PyPI:
 
-    bash
-
-pip install ChunkUpload
+    $ pip install ChunkUpload
 
 Add upload_chunk to the INSTALLED_APPS list in your Django project’s settings file (settings.py):
 
