@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ChunkUpload',
-    version='0.1',
+    version='0.2',
     description='A django app for uploading videos chunk by chunk and completing uploaded chunk after all chunks have been uploaded.',
     install_requires =[
         "django >= 3.0",
@@ -15,6 +15,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     url='https://github.com/MOQA14',
     auther= 'mohammad ghasempour',
     author_email='mamad.agha750202@gmail.com',
