@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "upload_chunk",
+    #"upload_chunk",
 
     "rest_framework",
     "django_cron",
+    'chunk_upload',
 ]
 
 MIDDLEWARE = [
