@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     #"upload_chunk",
 
     "rest_framework",
-    "django_cron",
     'chunk_upload',
 ]
 
@@ -125,7 +124,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/' # if it does not work, use os.path.join
-STATIC_ROOT = os.path.join(BASE_DIR, 'static.files/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

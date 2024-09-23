@@ -59,11 +59,17 @@ class ChunkUploadView(APIView):
         except Upload.DoesNotExist:
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
 
+        if upload.total_chunks > 0 :
+            progress = (upload.uploaded_chunks / upload.total_chunks) * 100
+        else:
+            progress = 0
+
         # Create chunk
         chunk = Chunk.objects.create(
             upload=upload,
             chunk_number=chunk_number,
-            file=chunk_file
+            file=chunk_file,
+            progress=progress
         )
 
         if chunk_number == 10:
@@ -80,7 +86,7 @@ class ChunkUploadView(APIView):
 
 
 class CompleteUploadView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
@@ -118,7 +124,7 @@ class CompleteUploadView(APIView):
         return Response(UploadSerializer(upload).data, status=status.HTTP_200_OK)
 
 
-class UploadDetailView(APIView):
+'''class UploadDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, upload_id, *args, **kwargs):
@@ -136,7 +142,7 @@ class UploadDetailView(APIView):
         response_data = UploadSerializer(upload).data
         response_data['progress'] = progress
 
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)'''
 
 
 '''class UploadChunksView(APIView):
@@ -153,7 +159,7 @@ class UploadDetailView(APIView):
 
 
 # for test
-class DeleteUploadView(APIView):
+'''class DeleteUploadView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def delete(self, request, upload_id, *args, **kwargs):
@@ -163,18 +169,22 @@ class DeleteUploadView(APIView):
         except Upload.DoesNotExist:
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response('file successfully deleted', status=status.HTTP_204_NO_CONTENT)
+        return Response('file successfully deleted', status=status.HTTP_204_NO_CONTENT)'''
 
 
 # for test
+
 class DeleteChunkView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def delete(self, request):
-        try:
-            if Chunk.DoesNotExist:
-                return Response('no chunk found', status=status.HTTP_404_NOT_FOUND)
-        except Chunk.objects.get():
-            Chunk.objects.all().delete()
+        now = timezone.now()
 
-            return Response('chunk deleted', status=status.HTTP_204_NO_CONTENT)
+        ten_minutes_ago = now - timezone.timedelta(minutes=10)
+
+        deleted = Chunk.objects.filter(created_at__lt=ten_minutes_ago).delete()
+
+        if deleted > 0:
+            return Response(f'{deleted} chunks deleted', status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response('No chunks to delete', status=status.HTTP_404_NOT_FOUND)

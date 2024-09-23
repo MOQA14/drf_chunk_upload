@@ -18,3 +18,4 @@ class Chunk(models.Model):
     chunk_number = models.IntegerField(blank=True, null=True)
     file = models.FileField(upload_to='chunks/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    expire_time = models.DateTimeField(blank=True, null=True)
