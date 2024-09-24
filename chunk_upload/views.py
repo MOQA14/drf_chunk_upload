@@ -29,11 +29,20 @@ class StartUploadView(APIView):
             video_length=video_length
         )
 
+        if upload.total_chunks > 0 :
+            progress = (upload.uploaded_chunks / upload.total_chunks) * 100
+        else:
+            progress = 0
+
+
+
         response_data = {
             'chunk_size': chunk_size,
             'upload_id': upload.id,
-            'chunk_number': chunk_number
+            'chunk_number': chunk_number,
+            'progress': progress,
         }
+        print(progress)
 
         return Response(response_data, status=status.HTTP_201_CREATED)
 
@@ -59,17 +68,14 @@ class ChunkUploadView(APIView):
         except Upload.DoesNotExist:
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        if upload.total_chunks > 0 :
-            progress = (upload.uploaded_chunks / upload.total_chunks) * 100
-        else:
-            progress = 0
+
 
         # Create chunk
         chunk = Chunk.objects.create(
             upload=upload,
             chunk_number=chunk_number,
             file=chunk_file,
-            progress=progress
+
         )
 
         if chunk_number == 10:
@@ -84,8 +90,8 @@ class ChunkUploadView(APIView):
 
         return Response(ChunkSerializer(chunk).data, status=status.HTTP_201_CREATED)
 
-
-class CompleteUploadView(APIView):
+# old completeuploadview
+'''class CompleteUploadView(APIView):
     permission_classes = [permissions.AllowAny]
 
     @transaction.atomic
@@ -101,8 +107,6 @@ class CompleteUploadView(APIView):
         except Upload.DoesNotExist:
             return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        if upload.is_completed:
-            return Response({'status': 'Upload completed'}, status=status.HTTP_200_OK)
 
         uploaded_chunks = upload.chunks.count()
         if uploaded_chunks != total_chunks:
@@ -121,8 +125,46 @@ class CompleteUploadView(APIView):
         # Clean up chunks after combining
         upload.chunks.all().delete()
 
-        return Response(UploadSerializer(upload).data, status=status.HTTP_200_OK)
+        if upload.is_completed:
+            #return Response({'status': 'Upload completed'}, status=status.HTTP_200_OK)
+            return Response(UploadSerializer(upload).data, status=status.HTTP_200_OK)'''
 
+# complete upload view
+class CompleteUploadView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        try:
+            upload_id = int(request.data.get('upload_id'))
+            total_chunks = int(request.data.get('total_chunks'))
+        except (TypeError, ValueError):
+            return Response({'error': 'Invalid upload ID or total chunks'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            upload = Upload.objects.get(id=upload_id)
+        except Upload.DoesNotExist:
+            return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        uploaded_chunks = upload.chunks.count()
+        if uploaded_chunks != total_chunks:
+            return Response({'error': f'Not all chunks uploaded: {uploaded_chunks}/{total_chunks}'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        final_file = ContentFile(b'')
+        for chunk in upload.chunks.order_by('chunk_number'):
+            print(f'Writing chunk {chunk.chunk_number} to final file')
+            final_file.write(chunk.file.read())
+
+        file_name = f'upload_{upload.id}.mp4'
+        print(f'Saving final file as {file_name}')
+        upload.file.save(file_name, final_file)
+
+        # Clean up chunks after combining
+        upload.chunks.all().delete()
+        if upload.is_completed:
+            return Response(UploadSerializer(upload).data, status=status.HTTP_200_OK)
+            # return Response({'status': 'Upload completed'}, status=status.HTTP_200_OK)
 
 '''class UploadDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -143,34 +185,6 @@ class CompleteUploadView(APIView):
         response_data['progress'] = progress
 
         return Response(response_data, status=status.HTTP_200_OK)'''
-
-
-'''class UploadChunksView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get(self, request, upload_id, *args, **kwargs):
-        try:
-            upload = Upload.objects.get(id=upload_id)
-        except Upload.DoesNotExist:
-            return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        chunks = upload.chunks.all()
-        return Response(ChunkSerializer(chunks, many=True).data, status=status.HTTP_200_OK)'''
-
-
-# for test
-'''class DeleteUploadView(APIView):
-    permission_classes = [permissions.AllowAny]
-
-    def delete(self, request, upload_id, *args, **kwargs):
-        try:
-            upload = Upload.objects.get(id=upload_id)
-            upload.delete()
-        except Upload.DoesNotExist:
-            return Response({'error': 'Upload not found'}, status=status.HTTP_404_NOT_FOUND)
-
-        return Response('file successfully deleted', status=status.HTTP_204_NO_CONTENT)'''
-
 
 # for test
 

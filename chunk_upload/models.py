@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Upload(models.Model):
-    file = models.FileField(upload_to='uploads/', null=True, blank=True)
+    file = models.FileField(upload_to='completed/', null=True, blank=True)
     video_length = models.IntegerField(blank=True, null=True)
     start_upload = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
@@ -19,3 +19,4 @@ class Chunk(models.Model):
     file = models.FileField(upload_to='chunks/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     expire_time = models.DateTimeField(blank=True, null=True)
+    progress = models.FloatField(default=0, blank=True, null=True)
