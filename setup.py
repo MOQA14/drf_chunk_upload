@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='ChunkUpload',
-    version='0.2',
+    version='0.2.1',
     description='A django app for uploading videos chunk by chunk and completing uploaded chunk after all chunks have been uploaded.',
     install_requires =[
         "django >= 3.0",

@@ -16,7 +16,7 @@ python
 
     INSTALLED_APPS = [
         ...,
-        'upload_chunk',
+        'chunk_upload',
     ]
 
 Usage
@@ -26,11 +26,11 @@ Usage
 
 Author
 
-    moqa14
+    https://github.com/MOQA14
 
 Development Team
 
-    Nadimibox
+    https://github.com/Nadimibox
 
 Additional Information
 
