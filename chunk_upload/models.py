@@ -19,7 +19,6 @@ class Chunk(models.Model):
     file = models.FileField(upload_to='chunks/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     expire_time = models.DateTimeField(blank=True, null=True)
-    progress = models.FloatField(default=0, blank=True, null=True)
 
 # making function for testing save address
 '''from django.db import models
