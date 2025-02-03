@@ -21,7 +21,7 @@ class StartUploadView(APIView):
             return Response({'error': 'Invalid video length'}, status=status.HTTP_400_BAD_REQUEST)
         print(video_length)
 
-        chunk_size = (video_length // 1000)
+        chunk_size = (video_length // 10)
         chunk_number = 10
         print(chunk_size)
 
